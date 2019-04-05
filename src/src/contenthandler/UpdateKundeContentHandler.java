@@ -14,8 +14,6 @@ public class UpdateKundeContentHandler extends ContentHandlerAdapter {
 
     private static final int UPDATE = 1;
 
-    private int level = 0;
-
     // Schreibweisen als Konstante festhalten (Änderbarkeit)
     public static final String UPKUNDE = "UPKUNDE";
 
@@ -23,7 +21,7 @@ public class UpdateKundeContentHandler extends ContentHandlerAdapter {
     // Spaltennamen in col speichern und Datentyp festhalten
     // Wenn das Element "Artikel" ist, zwichenspeicher leeren
     public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-        if (level == UPDATE) {
+        if (getLevel() == UPDATE) {
             String col, val, knr;
             knr = atts.getValue("KNR");
             col = atts.getValue("USP");
@@ -38,7 +36,7 @@ public class UpdateKundeContentHandler extends ContentHandlerAdapter {
             }
         }
 
-        level++;
+        super.startElement(uri, localName, qName, atts);
     }
 
     private void selectKunde(Statement sm, String knr) {
